@@ -1,0 +1,21 @@
+{
+  "name": "chat-me-up-backend",
+  "version": "1.0.0",
+  "description": "A chat app using Vue MongoDB and Socket.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:seed": "node models/seeds.js",
+    "start": "nodemon server.js"
+  },
+  "author": "Brendan Tuckerman (brendan.tuckerman@gmail.com)",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongodb": "^4.10.0",
+    "mongoose": "^6.6.5",
+    "nodemon": "^2.0.20"
+  }
+}
