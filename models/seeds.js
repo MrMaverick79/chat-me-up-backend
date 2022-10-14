@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-
+const bcrypt = require('bcrypt');
 const Room = require('./Room');
 const User = require('./User');
-const Message = require('./Message')
+const Message = require('./Message');
 
 // const MongoClient = require('mongodb').MongoClient;
 
@@ -30,7 +30,12 @@ db.once('open', async() => {
            
         createdDate: Date.now,
 
-        roomThumbnailUrl: "https://place-puppy.com/200x200"
+        roomThumbnailUrl: "https://place-puppy.com/200x200",
+
+        // messages:[
+        //   createdMessages[2],
+        //   createdMessages[3]
+        // ]
 
       },
 
@@ -44,7 +49,12 @@ db.once('open', async() => {
   
         participant: ['user1', 'user2' ],
 
-        roomThumbnailUrl: "http://placekitten.com/g/200/200"
+        roomThumbnailUrl: "http://placekitten.com/g/200/200",
+
+        // messages:[
+        //   createdMessages[0],
+        //   createdMessages[1]
+        // ]
 
       },
 
@@ -57,25 +67,72 @@ db.once('open', async() => {
 
     const createdMessages = await Message.create([
       {
-        content: "Aren't dogs great?"
+        content: "Aren't dogs great?", 
+        room: createdRooms[1],
+        // user: createdUsers[0]     
 
       },
       {
-        content: "Yes-dogs are the best."
+        content: "Yes-dogs are the best.",
+        room: createdRooms[1],
+        // user: createdUsers[1]    
 
       },
       {
-        content: "Cats are better."
+        content: "Cats are better.",
+        room: createdRooms[0],
+        // user: createdUsers[1]   
 
       },
       {
-        content: "Yes-I love cats!"
+        content: "Yes-I love cats!",
+        room: createdRooms[0],
+        // user: createdUsers[0]     
 
       }
     ]); //end message. create
      console.log("Messages:", createdMessages)
 
     //User seeds.
+    const createdUsers = await User.create([
+
+      {
+        name: "Test User 1",
+        email: "test1@test.com",
+        passwordDigest: bcrypt.hashSync('chicken', 10),
+        messages: [
+          createdMessages[0],
+          createdMessages[3]
+
+        ],
+        rooms: [
+          createdRooms[0],
+          createdRooms[1]
+        ]
+
+
+      },
+      {
+        name: "Test User 2",
+        email: "test2@test.com",
+        passwordDigest: bcrypt.hashSync('chicken', 10),
+        messages: [
+          createdMessages[1],
+          createdMessages[2]
+
+        ],
+        rooms: [
+          createdRooms[0],
+          createdRooms[1]
+        ]
+
+
+      },
+
+
+    ]) //end Users create
+
+    console.log('Users created:', createdUsers);
 
     process.exit(0)
 })
