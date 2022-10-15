@@ -21,7 +21,7 @@ app.use( cors());
 
 //To access POSTed body content, we need this
 app.use( express.json());
-app.use( express.urlencoded({ etxended: true}));
+app.use( express.urlencoded({ extended: true}));
 
 //Socket.io
 io.on('connection', (socket) => {
@@ -30,6 +30,17 @@ io.on('connection', (socket) => {
     socket.on('sendMessage', (message) => {
       console.log('Received a message', message);
       io.emit('getMessage', message)
+    })
+
+
+    socket.on("hello", (arg, callback) => {
+      console.log(arg); // "world"
+      callback("got it");
+    });
+
+    socket.on('getRoom', (arg) => {
+      console.log('Received request to load room:', arg)
+      socket.emit('roomResponse', arg )
     })
 
 
@@ -74,3 +85,7 @@ app.get('/rooms', async(req, res)=> {
     }
     
 }); // /rooms
+
+app.get('/room/:id', async(req, res)=> {
+  res.json(req.params)
+})
