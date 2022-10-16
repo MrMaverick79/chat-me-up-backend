@@ -39,13 +39,11 @@ io.on('connection', (socket) => {
     });
 
     socket.on('getRoom', (arg) => {
-      console.log('Received request to load room:', arg)
-      socket.emit('roomResponse', arg )
+      // console.log('Received request to load room:', arg)
+      io.emit('roomResponse', "The room is responding" )
     })
 
-
-
-  });
+})
 
 
 
@@ -56,6 +54,8 @@ server.listen(PORT, ()=> {
 //Mongoose db initialisation
 const mongoose = require('mongoose');
 const Room = require('./models/Room');
+const Message = require('./models/Message');
+const User = require('./models/User');
 //other models here (user, messages)
 
 mongoose.connect('mongodb://127.0.0.1/chatmu');
@@ -81,11 +81,28 @@ app.get('/rooms', async(req, res)=> {
 
     } catch (err){
         console.log('Error loading all rooms');
-        res.sendStatus( 422 ).json({error: 'Db connnection erro'}); //unprocessablle
+        res.sendStatus( 422 ).json({error: 'Db connnection error'}); //unprocessablle
     }
     
 }); // /rooms
 
-app.get('/room/:id', async(req, res)=> {
-  res.json(req.params)
-})
+app.get('/rooms/:id', async(req, res)=> {
+    console.log('Axios request made for /room/:id', req.params);
+
+    try{
+      //Grab the messages and the associated details
+      const messages = await Message.find({
+          room: req.params.id
+      }).populate("sender");
+
+      res.json(messages)
+      // const currentRoom = await Room.findOne({_id: req.params.id})
+      // res.json( currentRoom)
+
+    } catch (err){
+      console.log('There was an error trying to find that room', err);
+      res.sendStatus(422); //unprocessable entity
+    }
+    
+    
+});

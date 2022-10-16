@@ -3,12 +3,13 @@ const mongoose = require('mongoose');
 const MessageSchema = new mongoose.Schema({
 
     content: String,
+    
     createdAt: {
         type: Date,
         default: Date.now
     },
 
-    user:{
+    sender:{
         type: mongoose.Schema.Types.ObjectId, ref: "User"
     },
 

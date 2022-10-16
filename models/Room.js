@@ -18,6 +18,7 @@ const RoomSchema = new mongoose.Schema({
     users:[{
         type: mongoose.Schema.Types.ObjectId, ref: "User"
     }],
+    
     roomThumbnailUrl: String,
     
     messages: [{
@@ -28,6 +29,5 @@ const RoomSchema = new mongoose.Schema({
 
 })
 
-const model = mongoose.model('Room', RoomSchema);
 
-module.exports = model; //exports this model
+module.exports = mongoose.model('Room', RoomSchema);

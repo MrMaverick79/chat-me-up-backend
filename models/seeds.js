@@ -61,38 +61,6 @@ db.once('open', async() => {
     ]);
     console.log('Rooms:', createdRooms);
 
-    //Message Seeds
-
-    await Message.deleteMany();
-
-    const createdMessages = await Message.create([
-      {
-        content: "Aren't dogs great?", 
-        room: createdRooms[1],
-        // user: createdUsers[0]     
-
-      },
-      {
-        content: "Yes-dogs are the best.",
-        room: createdRooms[1],
-        // user: createdUsers[1]    
-
-      },
-      {
-        content: "Cats are better.",
-        room: createdRooms[0],
-        // user: createdUsers[1]   
-
-      },
-      {
-        content: "Yes-I love cats!",
-        room: createdRooms[0],
-        // user: createdUsers[0]     
-
-      }
-    ]); //end message. create
-     console.log("Messages:", createdMessages)
-
     //User seeds.
     const createdUsers = await User.create([
 
@@ -101,9 +69,6 @@ db.once('open', async() => {
         email: "test1@test.com",
         passwordDigest: bcrypt.hashSync('chicken', 10),
         messages: [
-          createdMessages[0],
-          createdMessages[3]
-
         ],
         rooms: [
           createdRooms[0],
@@ -117,9 +82,7 @@ db.once('open', async() => {
         email: "test2@test.com",
         passwordDigest: bcrypt.hashSync('chicken', 10),
         messages: [
-          createdMessages[1],
-          createdMessages[2]
-
+          
         ],
         rooms: [
           createdRooms[0],
@@ -133,6 +96,40 @@ db.once('open', async() => {
     ]) //end Users create
 
     console.log('Users created:', createdUsers);
+
+    //Message Seeds
+
+    await Message.deleteMany();
+
+    const createdMessages = await Message.create([
+      {
+        content: "Aren't dogs great?", 
+        room: createdRooms[1],
+        sender: createdUsers[0]     
+
+      },
+      {
+        content: "Yes-dogs are the best.",
+        room: createdRooms[1],
+        sender: createdUsers[1]    
+
+      },
+      {
+        content: "Cats are better.",
+        room: createdRooms[0],
+        sender: createdUsers[1]   
+
+      },
+      {
+        content: "Yes-I love cats!",
+        room: createdRooms[0],
+        sender: createdUsers[0]     
+
+      }
+    ]); //end message. create
+     console.log("Messages:", createdMessages)
+
+    
 
     process.exit(0)
 })
