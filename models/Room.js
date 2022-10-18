@@ -16,9 +16,10 @@ const RoomSchema = new mongoose.Schema({
         default: Date.now
     },
     users:[{
-        type: mongoose.Schema.Types.ObjectId, ref: "User"
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "User"
     }],
-    
+
     roomThumbnailUrl: String,
     
     messages: [{

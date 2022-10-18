@@ -86,14 +86,41 @@ app.post('/login', async (req, res)=> {
 
 
 
-
-
-
     } catch(err){
       console.log('Unable to find user', err);
       res.sendStatus(500)
     }
 }); //login
+
+
+//TODO: Sign in 
+app.post('/user/create', async (req, res)=> {
+    
+  
+
+  const {name, email, password} = req.body; //destructuring syntax
+  console.log(name, email, password);
+  try{
+    const user = new User ({email: email, name: name, password: password})
+    
+
+     //equivalent of strong params
+    //  const filteredUser = {
+    //     name: user.name,
+    //     email: user.email
+    //  }
+
+     res.json(user)
+    
+    
+
+
+  } catch(err){
+    console.log('Unable to create user', err);
+    res.sendStatus(500)
+  }
+}); //login
+
 
 //Socket.io
 //Socket settings
@@ -142,11 +169,21 @@ db.on('error', err => {
 
 
 //Routes
+
+//Root route
 app.get('/', (req, res) => {
     console.log('Route route was requested');
     res.json({ hello: 'there'})
 })  // route
 
+
+
+
+//*** All routes below this post require log in ***
+//TODO: sort this
+// app.use( checkAuth() );
+
+//get all rooms
 app.get('/rooms', async(req, res)=> {
     try{
 
@@ -160,6 +197,8 @@ app.get('/rooms', async(req, res)=> {
     
 }); // /rooms
 
+
+//get specific room
 app.get('/rooms/:id', async(req, res)=> {
     console.log('Axios request made for /room/:id', req.params);
 
@@ -181,8 +220,36 @@ app.get('/rooms/:id', async(req, res)=> {
     
 });
 
+//add a new chatroom
+app.post('/rooms/new', async(req, res) => {
 
-//Add a post via sockets
+    console.log('A request for a new room has been made', req);
+    //TODO: this will have to iterate over multiple users
+    const user = await User.findById(req.body.users)
+
+    try{
+
+      const newRoom = new Room ({
+          roomName : req.body.topic,
+          $push:{
+            users: user
+          }
+         
+      })
+
+      await newRoom.save()
+
+      res.json(newRoom)
+
+    } catch(err){
+      console.log('There has been an error trying to create this room', err);
+      res.sendStatus( 422 )
+    }
+
+});
+
+
+//Add an message via sockets
 async function postMessage(message){
   
     try{
