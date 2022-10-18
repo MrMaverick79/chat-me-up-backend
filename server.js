@@ -102,6 +102,7 @@ io.on('connection', (socket) => {
 
     //This one currently works  
     socket.on('sendMessage', (message) => {
+      postMessage(message); //adds the message, user, and room to the server.
       console.log('Received a message', message);
       io.emit('sendMessage', message)
     })
@@ -179,3 +180,22 @@ app.get('/rooms/:id', async(req, res)=> {
     
     
 });
+
+
+//Add a post via sockets
+async function postMessage(message){
+  
+    try{
+      const newMessage = new Message({
+          content: message.message,
+          sender: message.user,
+          room: message.room
+      });
+
+      const post = await newMessage.save()
+
+    } catch (err){
+      console.log('Error posting message', err);
+    }
+
+}
