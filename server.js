@@ -93,7 +93,7 @@ app.post('/login', async (req, res)=> {
 }); //login
 
 
-//TODO: Sign in 
+//New user
 app.post('/user/create', async (req, res)=> {
     
   
@@ -127,19 +127,32 @@ app.post('/user/create', async (req, res)=> {
 io.on('connection', (socket) => {
     console.log('a user connected to socket');
 
-    //This one currently works  
+    //Grab a message sent from the front end, post it to the server, and then return it on success
     socket.on('sendMessage', (message) => {
       postMessage(message); //adds the message, user, and room to the server.
       console.log('Received a message', message);
       io.emit('sendMessage', message)
-    })
-
+    });
 
     
-
-    socket.on('getRoom', (arg) => {
+    //Find the room and the room details upon request from the front end and return the room on  success.
+    socket.on('getRoom', async (roomId) => {
       // console.log('Received request to load room:', arg)
-      io.emit('roomResponse', "The room is responding" )
+      console.log('Received a request from the front end for a room', roomId);
+      const roomResult = await findRoom(roomId)
+        console.log('This is room result', roomResult);
+      io.emit('roomResponse', roomResult)
+
+
+    });
+
+    //grab the meesages for a specific room
+    socket.on('getMessages', async(roomId)=> {
+      console.log('Received a socket request from the front end for the messages from room:', roomId);
+      const messageResult = await findMessagesByRoom(roomId)
+      console.log('These are the messages I found', messageResult);
+      io.emit('messageResults', messageResult)
+
     })
 
 })
@@ -249,7 +262,7 @@ app.post('/rooms/new', async(req, res) => {
 });
 
 
-//Add an message via sockets
+//Add a message via sockets
 async function postMessage(message){
   
     try{
@@ -266,3 +279,39 @@ async function postMessage(message){
     }
 
 }
+
+
+//Find room details via socket
+async function findRoom(roomId){
+
+  try{
+     const room = await Room.findOne({
+       _id: roomId
+    })
+    return room
+
+  } catch(err){
+
+    console.log("Unable to find this room", err);
+    return err
+  } 
+
+}//findRoom
+
+//Find the messages that belong to a specific room on a socket request
+async function findMessagesByRoom(roomId){
+
+  try{
+    //Grab the messages and the associated details
+    const messages = await Message.find({
+        room: roomId
+    }).populate("sender").populate("room");
+
+     return messages
+   
+
+  } catch (err){
+    console.log('There was an error trying to find that room', err);
+    return err
+  }
+}//end findMessagesByRoom()

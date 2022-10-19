@@ -15,6 +15,7 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    
     userThumbnailUrl: String,
     //Has many messages
     //See the classwork repo for 'Denormalization--where different models keep track of the same information where it is useful to do so.
