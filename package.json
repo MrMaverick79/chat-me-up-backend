@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:seed": "node models/seeds.js",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "serve": "node server.js"
   },
   "author": "Brendan Tuckerman (brendan.tuckerman@gmail.com)",
   "license": "ISC",
@@ -23,6 +24,6 @@
     "socket.io": "^4.5.2"
   },
   "engines": {
-    "node" : "18.10.0" 
+    "node" : "18.x" 
   }
 }
