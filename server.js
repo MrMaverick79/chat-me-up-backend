@@ -287,7 +287,7 @@ async function findRoom(roomId){
   try{
      const room = await Room.findOne({
        _id: roomId
-    })
+    }).populate("users")
     return room
 
   } catch(err){

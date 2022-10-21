@@ -19,7 +19,37 @@ db.on('error', err => {
 db.once('open', async() => {
     console.log('Success! DB connected, model loaded');
 
+    //User seeds.
+    const createdUsers = await User.create([
+
+      {
+        name: "Test User 1",
+        email: "test1@test.com",
+        passwordDigest: bcrypt.hashSync('chicken', 10),
+        messages: [
+        ],
+        userThumbnailUrl:"https://www.placecage.com/200/200" 
+
+      },
+      {
+        name: "Test User 2",
+        email: "test2@test.com",
+        passwordDigest: bcrypt.hashSync('chicken', 10),
+        messages: [
+          
+        ],
+        userThumbnailUrl:"https://fillmurray.com/200/200"
+
+      },
+
+
+    ]) //end Users create
+
+    console.log('Users created:', createdUsers);
+    
     await Room.deleteMany()
+
+
 
     const createdRooms = await Room.create([
       {
@@ -32,10 +62,10 @@ db.once('open', async() => {
 
         roomThumbnailUrl: "https://place-puppy.com/200x200",
 
-        // messages:[
-        //   createdMessages[2],
-        //   createdMessages[3]
-        // ]
+         users:[
+          createdUsers[0],
+          createdUsers[1]
+        ]
 
       },
 
@@ -47,55 +77,19 @@ db.once('open', async() => {
            
         createdDate: Date.now,
   
-        participant: ['user1', 'user2' ],
-
         roomThumbnailUrl: "http://placekitten.com/g/200/200",
 
-        // messages:[
-        //   createdMessages[0],
-        //   createdMessages[1]
-        // ]
+        users:[
+          createdUsers[0],
+          createdUsers[1]
+        ]
 
       },
 
     ]);
     console.log('Rooms:', createdRooms);
 
-    //User seeds.
-    const createdUsers = await User.create([
-
-      {
-        name: "Test User 1",
-        email: "test1@test.com",
-        passwordDigest: bcrypt.hashSync('chicken', 10),
-        messages: [
-        ],
-        rooms: [
-          createdRooms[0],
-          createdRooms[1]
-        ]
-
-
-      },
-      {
-        name: "Test User 2",
-        email: "test2@test.com",
-        passwordDigest: bcrypt.hashSync('chicken', 10),
-        messages: [
-          
-        ],
-        rooms: [
-          createdRooms[0],
-          createdRooms[1]
-        ]
-
-
-      },
-
-
-    ]) //end Users create
-
-    console.log('Users created:', createdUsers);
+    
 
     //Message Seeds
 
