@@ -9,6 +9,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+
     passwordDigest: String,
 
     createdAt: {
@@ -16,7 +17,11 @@ const UserSchema = new mongoose.Schema({
         default: Date.now
     },
     
-    userThumbnailUrl: String,
+    thumbnailUrl: {
+        type: String,
+        required: true,
+    },
+    
     //Has many messages
     //See the classwork repo for 'Denormalization--where different models keep track of the same information where it is useful to do so.
     messages: [{

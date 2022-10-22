@@ -54,8 +54,13 @@ app.post('/login', async (req, res)=> {
     const {email, password} = req.body; //destructuring syntax
 
     try{
-      const user = await User.findOne({email}) //i.e email: email
+      const user = await User.findOne({email})
+
+    
+      
+      //i.e email: email
       console.log('Found user', user);
+      
 
       if (user && bcrypt.compareSync(password, user.passwordDigest)) {
         //correct credentials
@@ -153,6 +158,15 @@ io.on('connection', (socket) => {
       console.log('These are the messages I found', messageResult);
       io.emit('messageResults', messageResult)
 
+    }),
+
+    socket.on("getUser", async(userId)=> {
+      console.log('Received request for a user via socket:', userId);
+      const userResponse = await getUser(userId)
+      
+      socket.emit("foundUser", {
+        name: userResponse.name, url: userResponse.thumbnailUrl
+      })
     })
 
 })
@@ -280,6 +294,23 @@ async function postMessage(message){
 
 }
 
+//grab a user via socket
+async function getUser(userId){
+
+    try{
+      const user =await User.findOne({_id: userId.id})
+
+      console.log("The socket has found this user", user);
+      return user
+
+    } catch(err){
+      console.log("There has been an error", err);
+
+
+    };
+
+
+}
 
 //Find room details via socket
 async function findRoom(roomId){

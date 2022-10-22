@@ -19,26 +19,23 @@ db.on('error', err => {
 db.once('open', async() => {
     console.log('Success! DB connected, model loaded');
 
+    await User.deleteMany()
     //User seeds.
     const createdUsers = await User.create([
 
       {
         name: "Test User 1",
+        thumbnailUrl:"https://www.placecage.com/200/200", 
         email: "test1@test.com",
-        passwordDigest: bcrypt.hashSync('chicken', 10),
-        messages: [
-        ],
-        userThumbnailUrl:"https://www.placecage.com/200/200" 
+        passwordDigest: bcrypt.hashSync('chicken', 10)
+        
 
       },
       {
         name: "Test User 2",
         email: "test2@test.com",
         passwordDigest: bcrypt.hashSync('chicken', 10),
-        messages: [
-          
-        ],
-        userThumbnailUrl:"https://fillmurray.com/200/200"
+        thumbnailUrl:"https://www.fillmurray.com/200/200"
 
       },
 
