@@ -12,7 +12,7 @@ const io = new Server(server, {
     }
   });
 
-const PORT = process.env.PORT || 3000;
+
 
 //Cors middleware
 const cors = require('cors')
@@ -44,8 +44,17 @@ const checkAuth = () => {
 // - other sensitive data such as API access keys should also be stored
 // this way.
 // Also, use a command like 'md5' to generate a truly random secret key
-const SERVER_SECRET_KEY = 'aSuperSecretKeyCHICKEN'
 
+//Importing from .env
+const dotenv = require('dotenv');
+dotenv.config();
+
+const {PORT} = require('./config.js') || 3000;
+
+//TODO: Update for prod
+const { SERVER_SECRET_KEY }  = require ('./config.js')
+
+ 
 //Login
 app.post('/login', async (req, res)=> {
     
@@ -126,15 +135,30 @@ app.post('/user/create', async (req, res)=> {
   }
 }); //login
 
+app.get('/users', async(req, res)=> {
+
+    try{
+      console.log('/users');
+      const results= await User.find().select(['_id','name']);
+      res.json(results)
+
+    } catch(err){
+      console.log("There has been an error accessing the user list", err);
+      res.sendStatus(500)
+    }
+
+})
+
 
 //Socket.io
 //Socket settings
 io.on('connection', (socket) => {
-    console.log('a user connected to socket');
+
+    console.log('Socket Connected');
 
     //Grab a message sent from the front end, post it to the server, and then return it on success
-    socket.on('sendMessage', (message) => {
-      postMessage(message); //adds the message, user, and room to the server.
+    socket.on('sendMessage', async(message) => {
+      await postMessage(message); //adds the message, user, and room to the server.
       console.log('Received a message', message);
       io.emit('sendMessage', message)
     });
@@ -155,7 +179,7 @@ io.on('connection', (socket) => {
     socket.on('getMessages', async(roomId)=> {
       console.log('Received a socket request from the front end for the messages from room:', roomId);
       const messageResult = await findMessagesByRoom(roomId)
-      console.log('These are the messages I found', messageResult);
+      // console.log('These are the messages I found', messageResult);
       io.emit('messageResults', messageResult)
 
     }),
