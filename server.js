@@ -276,19 +276,28 @@ app.post('/rooms/new', async(req, res) => {
 
     console.log('A request for a new room has been made', req);
     //TODO: this will have to iterate over multiple users
-    const user = await User.findById(req.body.users)
+    const userIds = req.body.users;
+    let users=[];
+    for (let i = 0; i < userIds.length; i++) {
+      let user = await User.find({
+        _id:userIds[i]});
+      users.push(user);
+      
+    }
+
+    
 
     try{
-
+      console.log("This is the users", users.flat());
+      const userArr = users.flat()
+      
       const newRoom = new Room ({
           roomName : req.body.topic,
-          $push:{
-            users: user
-          }
+          users: userArr
+          })
+        
          
-      })
-
-      await newRoom.save()
+        await newRoom.save()
 
       res.json(newRoom)
 
