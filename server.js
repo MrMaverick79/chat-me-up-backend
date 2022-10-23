@@ -214,7 +214,7 @@ const checkAuth = () => {
 } //checkAuth()
 //*** All routes below this post require log in ***
 //TODO: sort this
-app.use( checkAuth());
+// app.use( checkAuth());
 
 app.use( async (req, res, next) => {
 
