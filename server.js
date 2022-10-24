@@ -6,11 +6,11 @@ const server = http.createServer(app)
 const { Server } = require('socket.io');
 const io = new Server(server, {
     cors: {
-      origin:"https://mrmaverick79.github.io/good-point-vue-frontend/",
+      origin:"https://cryptic-lake-39023.herokuapp.com/socket.io/",
       methods: "*",
       allowedHeaders: ["*"],
       credentials: true,
-       pingTimeout: 7000,
+      pingTimeout: 7000,
       pingInterval: 3000
     }
   });
