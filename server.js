@@ -6,7 +6,7 @@ const server = http.createServer(app)
 const { Server } = require('socket.io');
 const io = new Server(server, {
     cors: {
-      origin:"https://cryptic-lake-39023.herokuapp.com/socket.io/",
+      origin:"https://cryptic-lake-39023.herokuapp.com/socket.io/*",
       methods: "*",
       credentials: true,
       pingTimeout: 7000,
