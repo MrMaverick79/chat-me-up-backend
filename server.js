@@ -6,7 +6,7 @@ const server = http.createServer(app)
 const { Server } = require('socket.io');
 const io = new Server(server, {
     cors: {
-      origin:`https://mrmaverick79.github.io/`,
+      origin:`ws://mrmaverick79.github.io/good-point-front-end`,
       methods: "*",
       allowedHeaders: ["content-type"],
       credentials: true,
