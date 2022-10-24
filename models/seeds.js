@@ -6,7 +6,7 @@ const Message = require('./Message');
 
 // const MongoClient = require('mongodb').MongoClient;
 
-mongoose.connect('mongodb://127.0.0.1:27017/chatmu'); //the url to reach the server on our machine
+mongoose.connect(process.env.MONGODB_URI); //the url to reach the server on our machine
 
 const db = mongoose.connection
 

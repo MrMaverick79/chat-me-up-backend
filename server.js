@@ -176,7 +176,7 @@ server.listen(PORT, ()=> {
 })
 
 //Mongoose db initialisation
-const MONGODB_URI = require('./config.js');
+
 const mongoose = require('mongoose');
 const Room = require('./models/Room');
 const Message = require('./models/Message');
