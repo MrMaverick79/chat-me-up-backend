@@ -176,13 +176,14 @@ server.listen(PORT, ()=> {
 })
 
 //Mongoose db initialisation
+import { MONGODB_URI } from './config.js';
 const mongoose = require('mongoose');
 const Room = require('./models/Room');
 const Message = require('./models/Message');
 const User = require('./models/User');
 //other models here (user, messages)
 
-mongoose.connect('mongodb://127.0.0.1/chatmu');
+mongoose.connect(MONGODB_URI);
 const db = mongoose.connection;
 
 db.on('error', err => {
