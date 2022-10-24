@@ -6,9 +6,12 @@ const server = http.createServer(app)
 const { Server } = require('socket.io');
 const io = new Server(server, {
     cors: {
-      origin:`https://mrmaverick79.github.io/good-point-vue-frontend/`,
+      origin:`https://mrmaverick79.github.io/`,
       methods: "*",
-      credentials: true
+      allowedHeaders: ["content-type"],
+      credentials: true,
+      pingTimeout: 7000,
+      pingInterval: 3000
     }
   });
 
