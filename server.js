@@ -8,7 +8,6 @@ const io = new Server(server, {
     cors: {
       origin:"https://cryptic-lake-39023.herokuapp.com/socket.io/",
       methods: "*",
-      allowedHeaders: ["*"],
       credentials: true,
       pingTimeout: 7000,
       pingInterval: 3000
