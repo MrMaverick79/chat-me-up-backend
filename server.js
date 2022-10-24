@@ -14,7 +14,11 @@ const io = new Server(server, {
     }
   });
 
+//Importing from .env
+const dotenv = require('dotenv');
+dotenv.config();
 
+const PORT = process.env.PORT || 3000;
 
 //Cors middleware
 const cors = require('cors')
@@ -28,11 +32,7 @@ app.use( express.urlencoded({ extended: true}));
 
 
 
-//Importing from .env
-const dotenv = require('dotenv');
-dotenv.config();
 
-const PORT = process.env.PORT || 3000;
 
 //TODO: Update for prod
 const { SERVER_SECRET_KEY }  = require ('./config.js')
