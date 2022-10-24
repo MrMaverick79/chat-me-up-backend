@@ -8,9 +8,7 @@ const RoomSchema = new mongoose.Schema({
         type:String,
         required: true,
     },
-    roomId: {
-        type: Number 
-    },                
+                  
     createdAt: {
         type: Date,
         default: Date.now

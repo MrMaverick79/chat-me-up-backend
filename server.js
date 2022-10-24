@@ -30,7 +30,7 @@ app.use( express.urlencoded({ extended: true}));
 const dotenv = require('dotenv');
 dotenv.config();
 
-const {PORT} = require('./config.js') || 3000;
+const PORT = process.env.PORT || 80;
 
 //TODO: Update for prod
 const { SERVER_SECRET_KEY }  = require ('./config.js')

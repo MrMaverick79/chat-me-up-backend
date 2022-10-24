@@ -51,10 +51,9 @@ db.once('open', async() => {
     const createdRooms = await Room.create([
       {
     
-        roomName: 'All about cats',
+        roomName: 'Dogs Rule!',
 
-        roomId: 123,
-           
+                
         createdDate: Date.now,
 
         roomThumbnailUrl: "https://place-puppy.com/200x200",
@@ -68,10 +67,9 @@ db.once('open', async() => {
 
       {
 
-        roomName: 'Dogs rule',
+        roomName: 'Cat lovers only',
 
-        roomId: 456,
-           
+                 
         createdDate: Date.now,
   
         roomThumbnailUrl: "http://placekitten.com/g/200/200",
