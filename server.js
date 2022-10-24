@@ -183,7 +183,7 @@ const Message = require('./models/Message');
 const User = require('./models/User');
 //other models here (user, messages)
 
-mongoose.connect(MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI);
 const db = mongoose.connection;
 
 db.on('error', err => {
