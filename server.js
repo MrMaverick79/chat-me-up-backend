@@ -6,11 +6,11 @@ const server = http.createServer(app)
 const { Server } = require('socket.io');
 const io = new Server(server, {
     cors: {
-      origin:"*",
+      origin:"https://mrmaverick79.github.io/good-point-vue-frontend/",
       methods: "*",
-      allowedHeaders: ["content-type"],
+      allowedHeaders: ["*"],
       credentials: true,
-      pingTimeout: 7000,
+       pingTimeout: 7000,
       pingInterval: 3000
     }
   });
@@ -33,7 +33,7 @@ app.use( express.urlencoded({ extended: true}));
 const dotenv = require('dotenv');
 dotenv.config();
 
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 3000;
 
 //TODO: Update for prod
 const { SERVER_SECRET_KEY }  = require ('./config.js')
