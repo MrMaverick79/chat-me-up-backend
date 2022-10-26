@@ -6,9 +6,11 @@ const server = http.createServer(app)
 const { Server } = require('socket.io');
 const io = new Server(server, {
     cors: {
-      origin:"https://cryptic-lake-39023.herokuapp.com/socket.io/*",
+      // origin:["https://cryptic-lake-39023.herokuapp.com/socket.io/","https://mrmaverick79.github.io/good-point-vue-frontend/"],
+      origin:[/\.heroikuapp\.com$/, /\github\.io$/],
       methods: "*",
       credentials: true,
+      allowedHeaders: ['Content-Type', 'Authorization'],
       pingTimeout: 7000,
       pingInterval: 3000
     }
@@ -27,6 +29,15 @@ app.use( cors());
 //To access POSTed body content, we need this
 app.use( express.json());
 app.use( express.urlencoded({ extended: true}));
+
+
+//Testing:
+console.log('Server starting with',
+                  'port:', process.env.PORT,
+                  'Node env', process.env.NODE_ENV
+                  
+                  
+                  );
 
 
 
