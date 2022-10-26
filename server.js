@@ -31,18 +31,6 @@ app.use( express.json());
 app.use( express.urlencoded({ extended: true}));
 
 
-//Testing:
-console.log('Server starting with',
-                  'port:', process.env.PORT,
-                  'Node env', process.env.NODE_ENV
-                  
-                  
-                  );
-
-
-
-
-
 
 
 //TODO: Update for prod
@@ -183,7 +171,6 @@ io.on('connection', (socket) => {
 })
 
 
-
 server.listen(PORT, ()=> {
     console.log(`Server listening at http://localhost:${PORT} ...`);
 })
@@ -229,28 +216,26 @@ const checkAuth = () => {
 //*** All routes below this post require log in ***
 //TODO: sort this
 // app.use( checkAuth());
+// app.use( async (req, res, next) => {
 
-app.use( async (req, res, next) => {
+//   try {
+//     const user = await User.findOne({ _id: req.auth._id });
 
-  try {
-    const user = await User.findOne({ _id: req.auth._id });
+//     if( user === null ){
+//       res.sendStatus( 401 ); // invalid/stale token
+//       // Note that by running a response method here, this middleware will not
+//       // allow any further routes to be handled
+//     } else {
+//       req.current_user = user; // add 'current_user' for the next route to access
+//       next(); // move on to the next route handler/middleware in this server
+//     }
 
-    if( user === null ){
-      res.sendStatus( 401 ); // invalid/stale token
-      // Note that by running a response method here, this middleware will not
-      // allow any further routes to be handled
-    } else {
-      req.current_user = user; // add 'current_user' for the next route to access
-      next(); // move on to the next route handler/middleware in this server
-    }
+//   } catch( err ){
+//     console.log('Error querying User in auth middleware', err);
+//     res.sendStatus( 500 );
+//   }
 
-  } catch( err ){
-    console.log('Error querying User in auth middleware', err);
-    res.sendStatus( 500 );
-  }
-
-});  
-
+// });  
 
 //get all rooms
 app.get('/rooms', async(req, res)=> {
