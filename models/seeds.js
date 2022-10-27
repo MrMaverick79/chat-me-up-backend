@@ -51,7 +51,7 @@ db.once('open', async() => {
     const createdRooms = await Room.create([
       {
     
-        roomName: 'Dogs Rule!',
+        roomName: 'Cats Rule!',
 
                 
         createdDate: Date.now,
@@ -67,7 +67,7 @@ db.once('open', async() => {
 
       {
 
-        roomName: 'Cat lovers only',
+        roomName: 'Dog lovers only',
 
                  
         createdDate: Date.now,

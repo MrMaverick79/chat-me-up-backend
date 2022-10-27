@@ -6,7 +6,6 @@ const server = http.createServer(app)
 const { Server } = require('socket.io');
 const io = new Server(server, {
     cors: {
-      // origin:["https://cryptic-lake-39023.herokuapp.com/socket.io/","https://mrmaverick79.github.io/good-point-vue-frontend/"],
       origin:[/\.heroikuapp\.com$/, /\github\.io$/],
       methods: "*",
       credentials: true,
@@ -32,7 +31,6 @@ app.use( express.urlencoded({ extended: true}));
 
 
 
-
 //TODO: Update for prod
 const { SERVER_SECRET_KEY }  = require ('./config.js')
 
@@ -51,11 +49,11 @@ app.post('/login', async (req, res)=> {
     const {email, password} = req.body; //destructuring syntax
 
     try{
-      const user = await User.findOne({email})
+        const user = await User.findOne({email})
 
            
 
-      if (user && bcrypt.compareSync(password, user.passwordDigest)) {
+        if (user && bcrypt.compareSync(password, user.passwordDigest)) {
         //correct credentials
         const token  = jwt.sign(
         //the data to encode in the 'payload'
